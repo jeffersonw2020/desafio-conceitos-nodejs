@@ -16,8 +16,14 @@ app.get("/repositories", (request, response) => {
 });
 
 app.post("/repositories", (request, response) => {
-  const {title,url,tech} = request.body;
-  const repo ={id:uuid(),title,url,tech,likes:0};
+  const {title,url,techs} = request.body;
+  const repo ={
+    id:uuid(),
+    title,
+    url,
+    techs,
+    likes:0,
+  };
 
   repositories.push(repo);
   return response.json(repo);
@@ -25,7 +31,7 @@ app.post("/repositories", (request, response) => {
 
 app.put("/repositories/:id", (request, response) => {
   const {id} = request.params;
-  const {title,url,tech}= request.body;
+  const {title,url,techs}= request.body;
 
   const repositoresIndex = repositories.findIndex(repo => repo.id===id);
 
@@ -36,8 +42,8 @@ app.put("/repositories/:id", (request, response) => {
     id,
     title,
     url,
-    tech,
-    likes: repositories[repositoresIndex].likes
+    techs,
+    likes: repositories[repositoresIndex].likes,
     };
 
     repositories[repositoresIndex]=repository;
@@ -70,13 +76,13 @@ app.post("/repositories/:id/like", (request, response) => {
     id: repositories[repositoresIndex].id,
     title: repositories[repositoresIndex].title,
     url: repositories[repositoresIndex].url,
-    tech: repositories[repositoresIndex].tech,
+    tech: repositories[repositoresIndex].techs,
     likes: repositories[repositoresIndex].likes+=1
     };
 
     repositories[repositoresIndex]=repository;
 
-    return response.json(repository);
+    return response.json(repositories[repositoresIndex]);
 
 
 
